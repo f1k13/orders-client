@@ -4,20 +4,20 @@ import { sample } from "effector";
 import { createForm } from "effector-forms";
 
 export const registerForm = createForm({
-    fields: {
-        username: {
-            init: "",
-            rules: [required(), checkLength(3, 15)],
-        },
-        password: {
-            init: "",
-            rules: [required(), checkLength(6, 20)],
-        },
+  fields: {
+    username: {
+      init: "",
+      rules: [required(), checkLength(3, 15)],
     },
-    validateOn: ["submit"],
+    password: {
+      init: "",
+      rules: [required(), checkLength(6, 20)],
+    },
+  },
+  validateOn: ["submit"],
 });
 
 sample({
-    clock: registerForm.formValidated,
-    target: registerFx,
+  clock: registerForm.formValidated,
+  target: registerFx,
 });

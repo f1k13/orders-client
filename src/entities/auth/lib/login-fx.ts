@@ -6,27 +6,27 @@ import { authEvent } from "./auth-event";
 import { alertEvent } from "@/entities/alert/lib/alert-event";
 
 export const loginFx = createEffect<
-    { username: string; password: string },
-    AxiosError
+  { username: string; password: string },
+  AxiosError
 >(async (params) => {
-    try {
-        const { data } = await api.post("/auth/login", {
-            ...params,
-        });
-        setToken(data.token);
-        alertEvent({
-            theme: "success",
-            title: "Успешный вход",
-            message: "Вы успешно вошли в свой аккаунт",
-        });
-        authEvent(true);
-        return data;
-    } catch (error) {
-        alertEvent({
-            theme: "danger",
-            title: "Произошла ошибка",
-            message: "Неверный логин или пароль",
-        });
-        return error;
-    }
+  try {
+    const { data } = await api.post("/auth/login", {
+      ...params,
+    });
+    setToken(data.token);
+    alertEvent({
+      theme: "success",
+      title: "Успешный вход",
+      message: "Вы успешно вошли в свой аккаунт",
+    });
+    authEvent(true);
+    return data;
+  } catch (error) {
+    alertEvent({
+      theme: "danger",
+      title: "Произошла ошибка",
+      message: "Неверный логин или пароль",
+    });
+    return error;
+  }
 });
