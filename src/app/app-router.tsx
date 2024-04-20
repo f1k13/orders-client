@@ -10,33 +10,33 @@ import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 const AppRouter = () => {
-    const isAuth = useUnit($auth);
-    console.log(isAuth);
-    const navigate = useNavigate();
-    useEffect(() => {
-        const token = getToken();
-        if (token) {
-            navigate(HOME_ROUTE);
-        } else {
-            navigate(REGISTER_ROUTE);
-        }
+  const isAuth = useUnit($auth);
+  console.log(isAuth);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = getToken();
+    if (isAuth) {
+      navigate(HOME_ROUTE);
+    } else {
+      navigate(REGISTER_ROUTE);
+    }
 
-        setTokenToApi(String(token));
-        getUserFx();
-    }, []);
+    setTokenToApi(String(token));
+    getUserFx();
+  }, []);
 
-    return (
-        <Routes>
-            {isAuth &&
-                authRoutes.map(({ path, element }) => (
-                    <Route key={path} path={path} element={element} />
-                ))}
-            {publicRoutes.map(({ path, element }) => (
-                <Route path={path} key={path} element={element} />
-            ))}
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      {isAuth &&
+        authRoutes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
+      {publicRoutes.map(({ path, element }) => (
+        <Route path={path} key={path} element={element} />
+      ))}
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
 };
 
 export default AppRouter;

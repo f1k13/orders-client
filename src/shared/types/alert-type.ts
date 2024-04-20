@@ -1,5 +1,6 @@
 export type AlertDataType = {
-    theme: "success" | "danger" | "normal";
-    title: string;
-    message: string;
+  id?: string;
+  theme: "success" | "danger" | "normal" | "info";
+  title: string;
+  message: string;
 };
