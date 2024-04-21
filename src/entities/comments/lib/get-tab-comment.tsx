@@ -1,5 +1,4 @@
-import { CommentAdd } from "../ui";
-import CommentsList from "../ui/comments-list";
+import { CommentAdd, CommentsList } from "../ui";
 
 type TabDataType = {
   id: string;

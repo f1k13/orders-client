@@ -4,6 +4,7 @@ import { getOrdersFx } from "../lib/get-orders-fx";
 import { createOrderFx } from "../lib/create-order-fx";
 import { setOrderId } from "../lib/order-events";
 import { deleteOrder } from "../lib/delete-order-fx";
+import { getOrderFx } from "../lib/get-order";
 
 export const $orders = createStore<OrderData[]>([])
   .on(getOrdersFx.doneData, (_, data) => data)
@@ -18,3 +19,7 @@ export const $orderId = createStore<number>(0).on(
   setOrderId,
   (_, value) => value
 );
+
+export const $order = createStore<OrderData>({} as OrderData)
+  .on(getOrderFx.doneData, (_, data) => data)
+  .on(getOrderFx.failData, () => {});

@@ -1,8 +1,12 @@
-import { getOrdersFx } from "@/entities/orders/lib/get-orders-fx";
 import { $orders } from "@/entities/orders/model/orders";
 import { useUnit } from "effector-react";
-import { useEffect, useState } from "react";
-import { Table, TableDataItem, withTableActions } from "@gravity-ui/uikit";
+import { useState } from "react";
+import {
+  Table,
+  TableDataItem,
+  withTableActions,
+  withTableSorting,
+} from "@gravity-ui/uikit";
 import {
   CircleXmarkFill,
   PencilToSquare,
@@ -13,6 +17,9 @@ import { tableHeadData } from "../lib/table-head-data.tsx";
 import CommentModal from "@/features/modal/ui/comment-modal.tsx";
 import { setOrderId } from "@/entities/orders/lib/order-events.ts";
 import { deleteOrder } from "@/entities/orders/lib/delete-order-fx.ts";
+import EditOrder from "@/features/modal/ui/edit-order.tsx";
+import { getOrderFx } from "@/entities/orders/lib/get-order.ts";
+import { getCommentsFx } from "@/entities/comments/lib/get-comments.ts";
 
 type TableActionConfig<T> = {
   text: string;
@@ -22,13 +29,18 @@ type TableActionConfig<T> = {
 
 const TableOrder = () => {
   const orders = useUnit($orders);
-  const MyTable = withTableActions(Table);
-  const [open, setOpen] = useState<boolean>(false);
+  const MyTable = withTableActions(withTableSorting(Table));
+
+  const [openComment, setOpenComment] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
   const handleEdit = (id: number) => {
-    console.log("Edit order with id:", id);
+    console.log(id);
+    setOpenEdit(true);
+    getOrderFx(id);
   };
 
   const handleDelete = (id: number) => {
+    setOrderId(id);
     deleteOrder(id);
   };
   const handleLink = (ati: string) => {
@@ -36,7 +48,8 @@ const TableOrder = () => {
   };
   const handleComments = (id: number) => {
     setOrderId(id);
-    setOpen(true);
+    getCommentsFx(id);
+    setOpenComment(true);
   };
   const getRowActions = (): TableActionConfig<TableDataItem>[] => {
     return [
@@ -62,9 +75,7 @@ const TableOrder = () => {
       },
     ];
   };
-  useEffect(() => {
-    getOrdersFx();
-  }, []);
+
   return (
     <>
       <MyTable
@@ -72,7 +83,8 @@ const TableOrder = () => {
         columns={tableHeadData}
         getRowActions={getRowActions}
       />
-      <CommentModal open={open} setOpen={setOpen} />
+      <CommentModal open={openComment} setOpen={setOpenComment} />
+      <EditOrder open={openEdit} setOpen={setOpenEdit} />
     </>
   );
 };

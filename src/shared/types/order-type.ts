@@ -4,12 +4,12 @@ export interface OrderData {
   id: number;
   numberOrder: string;
   ati: string;
-  date?: DateTime | null;
+  date: DateTime | null;
   time: string;
   nameOfClientsCompany: string;
   nameOfCarrier: string;
   phoneNumberOfCarrier: string;
-  statusOrder: string;
+  statusOrder?: string;
 }
 export interface SetOrderData {
   numberOrder: string;

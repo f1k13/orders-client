@@ -1,39 +1,43 @@
 import { alertEvent } from "@/entities/alert/lib/alert-event";
 import { api } from "@/shared/api/api";
-import {  SetOrderData } from "@/shared/types/order-type";
+import { OrderData } from "@/shared/types/order-type";
 import { AxiosError } from "axios";
 import { createEffect } from "effector";
 import { DateTime } from "luxon";
+import { getOrdersFx } from "./get-orders-fx";
 
-export const createOrderFx = createEffect(async (params: SetOrderData) => {
-  const {
-    numberOrder,
-    date,
-    nameOfCarrier,
-    nameOfClientsCompany,
-    time,
-    phoneNumberOfCarrier,
-    ati,
-  } = params;
-
-  const formattedDate = date && DateTime.fromJSDate(date.toDate());
+export const putOrderFx = createEffect(async (params: OrderData) => {
   try {
-    const { data } = await api.post("/orders/create", {
+    const {
+      id,
+      numberOrder,
+      date,
+      nameOfCarrier,
+      nameOfClientsCompany,
+      time,
+      phoneNumberOfCarrier,
+      ati,
+      statusOrder,
+    } = params;
+
+    const formattedDate = date && DateTime.fromJSDate(date.toDate());
+    await api.put("/orders/edit", {
+      id,
       numberOrder,
       date: formattedDate?.toISODate(),
       nameOfCarrier,
       nameOfClientsCompany,
       time,
       phoneNumberOfCarrier,
+      statusOrder,
       ati,
     });
-
     alertEvent({
       theme: "success",
-      title: "Заявка создана",
-      message: "Вы успешно создали заявку",
+      title: "Заявка отредактирована",
+      message: "Вы успешно отредактировали заявку",
     });
-    return data;
+    await getOrdersFx();
   } catch (error) {
     if (error instanceof AxiosError) {
       alertEvent({

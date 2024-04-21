@@ -6,28 +6,28 @@ import { createEffect } from "effector";
 import { authEvent } from "./auth-event";
 
 export const registerFx = createEffect<
-    { username: string; password: string },
-    AxiosError
+  { username: string; password: string },
+  AxiosError
 >(async (params) => {
-    try {
-        const { data } = await api.post("/auth/registration", {
-            ...params,
-        });
-        setToken(data.token);
-        alertEvent({
-            theme: "success",
-            title: "Успешная регистрация",
-            message: "Вы успешно зарегистрировали свой аккаунт",
-        });
-        authEvent(true)
-        return data;
-    } catch (error) {
-        alertEvent({
-            theme: "danger",
-            title: "Произошла ошибка",
-            message: "Аккаунт с таким username уже существует",
-        });
-        authEvent(false);
-        return error;
-    }
+  try {
+    const { data } = await api.post("/auth/registration", {
+      ...params,
+    });
+    setToken(data.token);
+    alertEvent({
+      theme: "success",
+      title: "Успешная регистрация",
+      message: "Вы успешно зарегистрировали свой аккаунт",
+    });
+    authEvent(true);
+    return data;
+  } catch (error) {
+    alertEvent({
+      theme: "danger",
+      title: "Произошла ошибка",
+      message: "Аккаунт с таким username уже существует",
+    });
+    authEvent(false);
+    return error;
+  }
 });

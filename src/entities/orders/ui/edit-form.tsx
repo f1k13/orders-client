@@ -1,36 +1,41 @@
+import { useUnit } from "effector-react";
+import { $order } from "../model/orders";
+import { FormEvent, useEffect, useState } from "react";
+import { useForm } from "effector-forms";
+import { editOrderForm } from "../lib/edit-order-form-state";
+import { Button, Select, TextInput } from "@gravity-ui/uikit";
 import { useError } from "@/shared/hooks/use-error";
 import { formatPhoneNumber } from "@/shared/lib/help/telephone-mask";
-import { orderForm } from "@/entities/orders/lib/create-order-form-state";
 import { DatePicker } from "@gravity-ui/date-components";
 import { DateTime } from "@gravity-ui/date-utils";
-import { Button, TextInput } from "@gravity-ui/uikit";
-import { useForm } from "effector-forms";
-import { FormEvent, useState } from "react";
 import styles from "./styles/order.module.scss";
-import { useUnit } from "effector-react";
-import { $orderId, $orders } from "../model/orders";
-import { createCommentFx } from "@/entities/comments/lib/create-comment";
 import { timeFormat } from "@/shared/lib/help/time-format";
-const CreateForm = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
-  const { fields, submit } = useForm(orderForm);
-  const [commentValue, setCommentValue] = useState("");
-  const orders = useUnit($orders);
-  const orderId = useUnit($orderId);
-  console.log(orderId);
+const EditForm = () => {
+  const order = useUnit($order);
+  console.log(order);
+  const { fields, submit } = useForm(editOrderForm);
+  const [error, setError] = useState("");
+  const handleSelectChange = (value: string[]) => {
+    fields.statusOrder?.onChange(value[0]);
+  };
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (fields.statusOrder?.value === "Новая") {
+      setError("Статус заявки не может быть новая");
+      return;
+    } else {
+      setError("");
+    }
+
     submit();
-    setTimeout(() => {
-      if (commentValue) {
-        createCommentFx({
-          title: commentValue,
-          orderId:
-            orders.length > 0 ? orders[orders.length - 1].id + 1 : orderId + 1,
-        });
-      }
-      setOpen(false);
-    }, 1500);
   };
+  useEffect(() => {
+    fields.id.onChange(order.id);
+    fields.numberOrder.onChange(order.numberOrder);
+    fields.statusOrder?.onChange(order.statusOrder);
+  }, [order]);
+  console.log(fields.statusOrder?.value);
+
   return (
     <form onSubmit={onSubmit} className={styles.form}>
       <TextInput
@@ -129,18 +134,21 @@ const CreateForm = ({ setOpen }: { setOpen: (value: boolean) => void }) => {
           useError(fields.ati.firstError?.rule) ? "invalid" : undefined
         }
       />
-      <TextInput
-        value={commentValue}
-        onChange={(e) => setCommentValue(e.target.value)}
-        size="l"
-        placeholder="Комментарий"
-        autoFocus={true}
-      />
+      <Select
+        errorPlacement="inside"
+        errorMessage={error}
+        validationState={error ? "invalid" : undefined}
+        value={fields.statusOrder?.value ? [fields.statusOrder.value] : []}
+        onUpdate={handleSelectChange}
+      >
+        <Select.Option value="В прогрессе">В прогрессе</Select.Option>
+        <Select.Option value="Завершена">Завершена</Select.Option>
+      </Select>
       <Button type="submit" view="normal" size="xl">
-        Отправить данные
+        Изменить данные
       </Button>
     </form>
   );
 };
 
-export default CreateForm;
+export default EditForm;
