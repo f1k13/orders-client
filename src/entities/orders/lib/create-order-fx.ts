@@ -1,6 +1,7 @@
 import { alertEvent } from "@/entities/alert/lib/alert-event";
+import { setTotalCountEvent } from "@/features/pagination/lib/pagination-events";
 import { api } from "@/shared/api/api";
-import {  SetOrderData } from "@/shared/types/order-type";
+import { SetOrderData } from "@/shared/types/order-type";
 import { AxiosError } from "axios";
 import { createEffect } from "effector";
 import { DateTime } from "luxon";
@@ -33,7 +34,8 @@ export const createOrderFx = createEffect(async (params: SetOrderData) => {
       title: "Заявка создана",
       message: "Вы успешно создали заявку",
     });
-    return data;
+    setTotalCountEvent(data.totalCount);
+    return data.order;
   } catch (error) {
     if (error instanceof AxiosError) {
       alertEvent({

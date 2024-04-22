@@ -23,7 +23,7 @@ const AppRouter = () => {
 
     setTokenToApi(String(token));
     getUserFx();
-  }, []);
+  }, [isAuth]);
 
   return (
     <Routes>

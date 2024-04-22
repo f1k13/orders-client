@@ -12,7 +12,6 @@ import styles from "./styles/order.module.scss";
 import { timeFormat } from "@/shared/lib/help/time-format";
 const EditForm = () => {
   const order = useUnit($order);
-  console.log(order);
   const { fields, submit } = useForm(editOrderForm);
   const [error, setError] = useState("");
   const handleSelectChange = (value: string[]) => {
@@ -34,7 +33,6 @@ const EditForm = () => {
     fields.numberOrder.onChange(order.numberOrder);
     fields.statusOrder?.onChange(order.statusOrder);
   }, [order]);
-  console.log(fields.statusOrder?.value);
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>

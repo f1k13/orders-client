@@ -1,10 +1,10 @@
 import { HOME_ROUTE, REGISTER_ROUTE } from "@/shared/router/paths";
-import styles from "../styles/login-form.module.scss";
+import styles from "./styles/login-form.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "effector-forms";
 import { useUnit } from "effector-react";
-import { FormEvent, useEffect, useMemo } from "react";
-import { Text, TextInput, Button, Link } from "@gravity-ui/uikit";
+import { FormEvent, useEffect } from "react";
+import { Text, TextInput, Button } from "@gravity-ui/uikit";
 import { $auth } from "@/entities/auth/model/auth";
 import { loginForm } from "../lib/login-form-state";
 import { useError } from "@/shared/hooks/use-error";

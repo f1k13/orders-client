@@ -15,7 +15,9 @@ const CommentsList = () => {
           </Card>
         ))
       ) : (
-        <Text>Комментариев нет</Text>
+        <Text className={styles.text} variant="body-3">
+          Комментариев нет
+        </Text>
       )}
     </ul>
   );

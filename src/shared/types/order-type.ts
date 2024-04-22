@@ -20,3 +20,13 @@ export interface SetOrderData {
   phoneNumberOfCarrier: string;
   ati: string;
 }
+export interface FilterOrderData {
+  numberOrder: string;
+  date: DateTime | null;
+  time: string;
+  nameOfClientsCompany: string;
+  nameOfCarrier: string;
+  phoneNumberOfCarrier: string;
+  ati: string;
+  statusOrder: string;
+}

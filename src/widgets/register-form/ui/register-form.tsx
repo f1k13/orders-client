@@ -1,7 +1,7 @@
 import { HOME_ROUTE, LOGIN_ROUTE } from "@/shared/router/paths";
-import { Text, TextInput, Button, Link } from "@gravity-ui/uikit";
+import { Text, TextInput, Button } from "@gravity-ui/uikit";
 import { useNavigate } from "react-router-dom";
-import styles from "../styles/register-form.module.scss";
+import styles from "./styles/register-form.module.scss";
 import { useForm } from "effector-forms";
 import { registerForm } from "../lib/register-form-state";
 import { FormEvent, useEffect } from "react";

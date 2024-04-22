@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  gap: 20px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+}
+.item {
+  width: 20%;
+}

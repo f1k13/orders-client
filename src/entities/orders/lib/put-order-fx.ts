@@ -37,7 +37,7 @@ export const putOrderFx = createEffect(async (params: OrderData) => {
       title: "Заявка отредактирована",
       message: "Вы успешно отредактировали заявку",
     });
-    await getOrdersFx();
+    await getOrdersFx(1);
   } catch (error) {
     if (error instanceof AxiosError) {
       alertEvent({

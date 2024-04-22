@@ -11,7 +11,10 @@ const CommentAdd = () => {
   const orderId = useUnit($orderId);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!title) setError("Поле обязательно к заполнению");
+    if (!title) {
+      setError("Поле обязательно к заполнению");
+      return;
+    }
     console.log(orderId);
     createCommentFx({
       title,

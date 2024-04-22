@@ -1,10 +1,11 @@
 import { OrderData } from "@/shared/types/order-type";
 import { createStore } from "effector";
-import { getOrdersFx } from "../lib/get-orders-fx";
+import { getOrdersFx, searchOrderFx } from "../lib/get-orders-fx";
 import { createOrderFx } from "../lib/create-order-fx";
 import { setOrderId } from "../lib/order-events";
 import { deleteOrder } from "../lib/delete-order-fx";
 import { getOrderFx } from "../lib/get-order";
+import { filterOrderFx } from "../lib/filter-order-fx";
 
 export const $orders = createStore<OrderData[]>([])
   .on(getOrdersFx.doneData, (_, data) => data)
@@ -13,7 +14,11 @@ export const $orders = createStore<OrderData[]>([])
   .on(getOrdersFx.failData, () => [])
   .on(deleteOrder.doneData, (state, id) =>
     state.filter((item) => item.id !== id)
-  );
+  )
+  .on(filterOrderFx.doneData, (_, data) => data)
+  .on(filterOrderFx.failData, (state, _) => state)
+  .on(searchOrderFx.doneData, (_, data) => data)
+  .on(searchOrderFx.failData, (state) => state);
 
 export const $orderId = createStore<number>(0).on(
   setOrderId,

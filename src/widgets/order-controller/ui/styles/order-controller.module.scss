@@ -7,13 +7,18 @@
 }
 
 .card {
-  width: 120px;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 .endInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.filters {
   display: flex;
   align-items: center;
   gap: 20px;
